@@ -1,26 +1,397 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Brand system copied from greedyadventures.com (:root tokens + font stack).
+ * Fonts are loaded from the Greedy Adventures CDN (served with
+ * access-control-allow-origin: *); no font files are copied into this repo.
+ */
+@font-face {
+  font-family: brandon;
+  src: url("https://www.greedyadventures.com/_next/static/immutable/media/brandon_regular_webfont-s.p.3-ze1o8-v__63.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: brandon;
+  src: url("https://www.greedyadventures.com/_next/static/immutable/media/brandon_medium_webfont-s.p.3hx1cr2juc6_f.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: brandon;
+  src: url("https://www.greedyadventures.com/_next/static/immutable/media/brandon_bold_webfont-s.p.10vhij_l5gqq7.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: brandon-fallback;
+  src: local(Arial);
+  ascent-override: 119.88%;
+  descent-override: 45.69%;
+  line-gap-override: 0%;
+  size-adjust: 86.03%;
+}
+@font-face {
+  font-family: alternate;
+  src: url("https://www.greedyadventures.com/_next/static/immutable/media/alternategotno1dregular-s.p.1d57dawrugul7.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: alternate-fallback;
+  src: local(Arial);
+  ascent-override: 147.3%;
+  descent-override: 42.92%;
+  line-gap-override: 0%;
+  size-adjust: 58.24%;
+}
+@font-face {
+  font-family: chronicle;
+  src: url("https://www.greedyadventures.com/_next/static/immutable/media/chronicledisplay_roman-s.p.2gxh2bq9xclbx.woff2") format("woff2");
+  font-display: swap;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --color-background: #ffffff;
+  --color-body: #52575c;
+  --color-body-strong: #3f4a52;
+  --color-heading: #20292f;
+  --color-primary: #12313f;
+  --color-primary-hover: #1d495b;
+  --color-tint: #e7eef1;
+  --color-accent-on-dark: #cadbd9;
+  --color-chalk: #f5f0e6;
+  --color-sage: #dce7db;
+  --color-cream: #f7f4eb;
+  --color-ink-deep: #102a35;
+  --color-on-ink: #dce8e8;
+  --color-muted: #f9f9f9;
+  --color-muted-fg: #707477;
+  --color-line: #d7d7d7;
+  --color-footer: #1d1d1d;
+  --color-footer-text: #adadad;
+  /* Canopy yellow from the dropzone's black-and-yellow canopies (used only by the cursor). */
+  --color-canopy: #f5b81a;
+
+  --font-sans: brandon, brandon-fallback, sans-serif;
+  --font-display: alternate, alternate-fallback, sans-serif;
+  --font-serif: chronicle, Georgia, serif;
+
+  --radius-brand: 2px;
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-press: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.5;
+  letter-spacing: 0.85px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@layer components {
+.wrap {
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 769px) {
+  .wrap {
+    padding-inline: 40px;
+  }
+}
+@media (min-width: 1025px) {
+  .wrap {
+    padding-inline: 64px;
+  }
+}
+/* One vertical rhythm for every band: 96 / 128 / 160px. */
+.section {
+  padding-block: 96px;
+}
+@media (min-width: 769px) {
+  .section {
+    padding-block: 128px;
+  }
+}
+@media (min-width: 1025px) {
+  .section {
+    padding-block: 160px;
+  }
+}
+/* Large rectangular buttons (gallery-play style) in the brand type. */
+.btn-xl {
+  display: inline-flex;
+  min-height: 56px;
+  min-width: 220px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  transition:
+    background-color 250ms ease,
+    color 250ms ease,
+    border-color 250ms ease,
+    transform 140ms var(--ease-press);
+}
+.btn-xl:active {
+  transform: scale(0.98);
+  transition-duration: 0ms;
+}
+/* ---------- Brand primitives (mirroring the site's bt-* classes) ---------- */
+.bt-container {
+  width: 100%;
+  max-width: 1369px;
+  margin-inline: auto;
+  padding-inline: 15px;
+}
+@media (min-width: 769px) {
+  .bt-container {
+    padding-inline: 25.5px;
+  }
+}
+
+.bt-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--color-heading);
+  letter-spacing: 2.25px;
+  line-height: 1;
+  font-size: 40px;
+}
+@media (min-width: 769px) {
+  .bt-title {
+    font-size: 56px;
+  }
+}
+
+.bt-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.bt-button {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition:
+    background-color 250ms ease-in-out,
+    color 250ms ease-in-out,
+    border-color 250ms ease-in-out,
+    transform 140ms var(--ease-press);
+}
+.bt-button:hover {
+  background: var(--color-primary-hover);
+}
+.bt-button:active {
+  transform: scale(0.98);
+  transition-duration: 0ms;
+}
+.bt-button-outline {
+  background: transparent;
+  border-color: currentColor;
+}
+.bt-button-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.bt-ink {
+  isolation: isolate;
+  color: #fff;
+  background-color: var(--color-ink-deep);
+  background-image:
+    linear-gradient(115deg, #06171fd1, #12313f8a),
+    url("https://www.greedyadventures.com/greedy/img/editorial-theme/raw-paper-ink.webp");
+  background-position: 50%;
+  background-size: cover;
+}
+
+.bt-scrollbar {
+  scrollbar-width: none;
+}
+.bt-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.press {
+  touch-action: manipulation;
+  transition:
+    transform 140ms var(--ease-press),
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    opacity 200ms ease;
+}
+.press:active {
+  transform: scale(0.97);
+  transition-duration: 0ms;
+}
+
+}
+
+/* ---------- Hero film loader: a canopy opening while the video buffers ---------- */
+.canopy-loader {
+  transform-origin: 50% 0%;
+  animation: canopy-sway 1.8s ease-in-out infinite alternate;
+}
+@keyframes canopy-sway {
+  from {
+    transform: rotate(-6deg) translateY(0);
+  }
+  to {
+    transform: rotate(6deg) translateY(4px);
+  }
+}
+
+/* ---------- Context cursor ---------- */
+html.has-context-cursor,
+html.has-context-cursor * {
+  cursor: none !important;
+}
+html.has-context-cursor :is(input, textarea, [contenteditable="true"]),
+html.has-context-cursor [data-cursor="native"],
+html.has-context-cursor [data-cursor="native"] * {
+  cursor: auto !important;
+}
+html.has-context-cursor [data-cursor="native"] :is(a, button, summary, label, [role="button"]) {
+  cursor: pointer !important;
+}
+html.has-context-cursor [data-cursor="native"] :is(input, textarea) {
+  cursor: text !important;
+}
+
+.cursor-halo {
+  filter: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff) drop-shadow(0 3px 6px rgba(16, 42, 53, 0.35));
+}
+
+.freefall-bob {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: freefall-bob 1.4s ease-in-out infinite alternate;
+}
+@keyframes freefall-bob {
+  from {
+    transform: translateY(-1px) scale(1);
+  }
+  to {
+    transform: translateY(1.5px) scale(0.97);
+  }
+}
+
+.cursor-puff {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 9999px;
+  border: 2px solid var(--color-canopy);
+  animation: cursor-puff 420ms var(--ease-enter) forwards;
+}
+@keyframes cursor-puff {
+  from {
+    transform: scale(0.2);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* ---------- Chat ---------- */
+.typing-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+.typing-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: var(--color-muted-fg);
+  animation: typing 1s ease-in-out infinite;
+}
+.typing-dots span:nth-child(2) {
+  animation-delay: 150ms;
+}
+.typing-dots span:nth-child(3) {
+  animation-delay: 300ms;
+}
+@keyframes typing {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+/* ---------- Title entrance (once, on load) ---------- */
+@keyframes enter {
+  from {
+    transform: translateY(8px);
+    filter: blur(4px);
+    opacity: 0;
+  }
+}
+.animate-enter {
+  animation: enter 700ms var(--ease-press) both;
+  animation-delay: calc(var(--delay, 90ms) * var(--stagger, 0));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-enter {
+    animation: none;
+  }
+  .freefall-bob,
+  .typing-dots span,
+  .canopy-loader {
+    animation-play-state: paused;
+  }
 }
