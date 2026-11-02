@@ -93,3 +93,4 @@ curl -s -o /dev/null -w "%{http_code}\n" -X POST http://localhost:3000/api/chat 
   -d '{"messages":[{"role":"system","text":"invalid role"}]}'
 ```
 * **Check**: Returns HTTP `400` Bad Request.
+
