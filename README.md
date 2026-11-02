@@ -192,6 +192,8 @@ Nothing is stored. No customer conversations are logged, so none can appear here
 
 ## Verification
 
+> For a dedicated checklist and curl commands, see [VERIFICATION.md](VERIFICATION.md).
+
 ### Automated (`npm test`, 31 tests)
 
 | Area | What's checked |
